@@ -1,5 +1,7 @@
 # ecg-filter-core
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22136345.svg)](https://doi.org/10.5281/zenodo.22136345)
+
 零外部依赖的 Java 心电（ECG）零相移 Butterworth 滤波库，包含信号质量指数（SQI）计算与自适应滤波配置选择。
 
 A zero-dependency Java library for zero-phase Butterworth filtering of ECG signals, including signal quality index (SQI) computation and adaptive filter selection.
@@ -141,6 +143,8 @@ com.ecg.filter
 如果本代码对你的研究有帮助，请引用：
 
 > He, L. *Zero-Phase Butterworth Filtering for Resource-Constrained ECG Monitoring: A Validated Pure-Java Implementation with Signal-Quality-Guided Adaptive Configuration.* Biomedical Signal Processing and Control (under review), 2026.
+
+代码存档（永久 DOI）：<https://doi.org/10.5281/zenodo.22136345>
 
 ## License
 
