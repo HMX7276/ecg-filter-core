@@ -1,13 +1,14 @@
 package com.ecg.filter.adaptive;
 
 /**
- * 自适应滤波配置选择器。
+ * Legacy fixed-bSQI selector; retained only for historical comparisons.
+ * Use SessionCalibratedSelector with BWA and centered mSQI for the revision.
  *
  * <p>基于信号质量指数（bSQI、mSQI）选择最合适的滤波配置，
  * 内置滞后机制：连续 {@value #HYSTERESIS_FRAMES} 帧满足同一切换条件才真正切换，
  * 防止噪声导致的配置闪烁（频繁切换）。</p>
  *
- * <p>决策规则（阈值先写死合理值，后续可根据训练集统计调整）：</p>
+ * <p>Historical thresholds below are not the revised deployment-domain calibration.</p>
  * <pre>
  *   if (bSQI &gt; 0.30 &amp;&amp; mSQI &lt; 0.10) → CONFIG_BASELINE_HEAVY   (基线漂移严重)
  *   if (bSQI &lt; 0.10 &amp;&amp; mSQI &gt; 0.15) → CONFIG_MUSCLE_HEAVY     (肌电噪声大)
@@ -17,6 +18,7 @@ package com.ecg.filter.adaptive;
  *
  * <p>线程安全：调用方需自行同步（通常单线程处理一帧数据）。</p>
  */
+@Deprecated
 public class AdaptiveFilterSelector {
 
     /** 滞后帧数：连续满足同一条件达到此帧数才切换 */
@@ -25,7 +27,7 @@ public class AdaptiveFilterSelector {
     /**
      * 基线漂移阈值（bSQI）。
      * 标定依据：干净信号（带通滤波后）bSQI 的 95% 分位数（0.0266）。
-     * 见 scripts/calibrate_sqi_thresholds.py。
+     * Original calibration script was not present in the upstream snapshot.
      */
     private static final double BASELINE_THRESHOLD = 0.0266;
 

@@ -1,0 +1,48 @@
+{
+  "sessions": 3,
+  "inputs": 3,
+  "warmups_per_input_per_session": 5,
+  "measured_replays": 180,
+  "measured_full_frames": 21420,
+  "mean_ms": 0.9994882970588236,
+  "median_ms": 1.07151,
+  "p95_ms": 1.211146,
+  "max_ms": 3.822083,
+  "max_output_rmse_uv": 1.3135715877004796e-14,
+  "max_output_abs_error_uv": 4.547473508864641e-13,
+  "observed_java_used_mib_max": 203.96475982666016,
+  "sampled_pss_mib_max": 103.35546875,
+  "battery_temperature_c_min": 35.8,
+  "battery_temperature_c_max": 35.8,
+  "thermal_statuses": [
+    0
+  ],
+  "power_save_states": [
+    false
+  ],
+  "plugged_values": [
+    2
+  ],
+  "device": {
+    "manufacturer": "Xiaomi",
+    "model": "25098PN5AC",
+    "device": "pandora",
+    "hardware": "qcom",
+    "fingerprint": "Xiaomi/pandora/pandora:17/CP2A.260605.016/OS4.0.5.0.XBLCNXM:user/release-keys",
+    "android_release": "17",
+    "api": 37,
+    "security_patch": "2026-10-01",
+    "abis": [
+      "arm64-v8a"
+    ],
+    "java_vm": "2.1.0",
+    "logical_processors": 8,
+    "soc_manufacturer": "QTI",
+    "soc_model": "SM8850",
+    "debuggable": false,
+    "debugger_connected": false,
+    "thread_priority": 0
+  },
+  "apk_sha256": "0ec769118f17bdc88a07770e1d05cc09d76e68a023a5423f3d30f585b036a3c1",
+  "scope": "Accelerated real-device replay, not sensor acquisition or alarm latency. Memory includes application replay/logging buffers; no minimum-heap claim."
+}

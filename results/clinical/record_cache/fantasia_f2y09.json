@@ -1,0 +1,1 @@
+{"record_exclusions": [{"database": "fantasia", "record": "f2y09", "subject": "fantasia_f2y09", "reason": "nonfinite_native_ECG_no_imputation", "missing_samples": 160, "native_fs": 250, "scanned_seconds": 1870.0, "longest_gap_seconds": 0.364, "first_missing_s": 113.492, "last_missing_s": 126.8}]}

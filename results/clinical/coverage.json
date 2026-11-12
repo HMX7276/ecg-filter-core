@@ -1,0 +1,20 @@
+{
+  "selected_mitdb_records": 48,
+  "mitdb_participants": 47,
+  "selected_fantasia_subjects": 40,
+  "evaluated_fantasia_subjects": 34,
+  "excluded_fantasia_subjects": 6,
+  "hrv_windows_per_method": 204,
+  "selected_edb_records": 90,
+  "edb_participants_in_inventory": 79,
+  "expert_st_peaks": 368,
+  "evaluated_st_peaks": 246,
+  "failed_st_peaks": 122,
+  "edb_records_with_evaluable_peaks": 75,
+  "edb_participants_with_evaluable_peaks": 68,
+  "failure_reasons": {
+    "peak_delineation: ": 109,
+    "reference_delineation: ": 13
+  },
+  "scope": "Retrospective clinical signal/annotation endpoints; no prospective deployment, autonomous ST episode detection or clinical safety claim"
+}

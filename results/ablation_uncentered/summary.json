@@ -1,0 +1,71 @@
+{
+  "numerical_max_rmse_uv": {
+    "direct": 0.05850161069888568,
+    "sos": 8.337134529006133e-08
+  },
+  "streaming": [
+    {
+      "database": "fantasia",
+      "initial_condition": "bw_start_0dB",
+      "bw_active_recall": 0.20454545454545453,
+      "powerline_active_recall": 0.0,
+      "clean_false_alarm_rate": 0.0
+    },
+    {
+      "database": "fantasia",
+      "initial_condition": "bw_start_6dB",
+      "bw_active_recall": 0.5397727272727273,
+      "powerline_active_recall": 0.0,
+      "clean_false_alarm_rate": 0.03308823529411765
+    },
+    {
+      "database": "fantasia",
+      "initial_condition": "ma_start_0dB",
+      "bw_active_recall": 0.2954545454545454,
+      "powerline_active_recall": 0.0,
+      "clean_false_alarm_rate": 0.003676470588235294
+    },
+    {
+      "database": "fantasia",
+      "initial_condition": "raw_start",
+      "bw_active_recall": 0.7386363636363636,
+      "powerline_active_recall": 0.0,
+      "clean_false_alarm_rate": 0.07904411764705882
+    },
+    {
+      "database": "mitdb",
+      "initial_condition": "bw_start_0dB",
+      "bw_active_recall": 0.2604166666666667,
+      "powerline_active_recall": 0.8977272727272726,
+      "clean_false_alarm_rate": 0.04013480392156863
+    },
+    {
+      "database": "mitdb",
+      "initial_condition": "bw_start_6dB",
+      "bw_active_recall": 0.5842803030303031,
+      "powerline_active_recall": 0.8693181818181818,
+      "clean_false_alarm_rate": 0.08088235294117647
+    },
+    {
+      "database": "mitdb",
+      "initial_condition": "ma_start_0dB",
+      "bw_active_recall": 0.3693181818181818,
+      "powerline_active_recall": 0.8958333333333334,
+      "clean_false_alarm_rate": 0.04779411764705882
+    },
+    {
+      "database": "mitdb",
+      "initial_condition": "raw_start",
+      "bw_active_recall": 0.8541666666666666,
+      "powerline_active_recall": 0.8484848484848485,
+      "clean_false_alarm_rate": 0.21875
+    }
+  ],
+  "synthetic_st_mean_mae_uv": {
+    "causal_0.05": 6.833373230267712,
+    "causal_twice_0.05": 15.109009085993224,
+    "overlap_0.05": 6.551525369062909,
+    "zero_phase_0.05": 1.0982420691569212,
+    "zero_phase_0.10": 1.087048455584243
+  }
+}

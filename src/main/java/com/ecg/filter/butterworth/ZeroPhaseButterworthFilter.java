@@ -7,7 +7,9 @@ import com.ecg.filter.utils.GaussianElimination;
  * 零相移 Butterworth 滤波器（scipy.signal.filtfilt 等效）。
  *
  * <p>提供双向零相移滤波（正向滤波 → 反转 → 反向滤波 → 反转去填充），
- * 实现与 {@code scipy.signal.filtfilt} 逐点等价（双精度浮点下 RMSE &lt; 1e-12）。</p>
+ * 对应 {@code scipy.signal.filtfilt(method="pad")}；使用稳态初值，
+ * 不实现 Gustafsson 方法。数值误差依赖信号和系数，不能保证固定精度下界。
+ * 新应用优先使用 {@link SosZeroPhaseFilter}。</p>
  *
  * <p>核心算法均自实现，无外部矩阵库依赖：</p>
  * <ul>
@@ -71,6 +73,11 @@ public final class ZeroPhaseButterworthFilter {
      * @return 零相移滤波后信号
      */
     public double[] filtfilt(double[] x, double[] b, double[] a, double[] zi) {
+        if (b == null || a == null || b.length == 0 || a.length == 0 || a[0] != 1.0)
+            throw new IllegalArgumentException("Nonempty coefficients with a[0]=1 required");
+        if (zi == null || zi.length != Math.max(a.length,b.length)-1)
+            throw new IllegalArgumentException("Incorrect initial state length");
+        SosZeroPhaseFilter.validateSignal(x,3*Math.max(b.length,a.length)+1);
         int n = x.length;
         int nState = zi.length;
         int padLen = 3 * Math.max(b.length, a.length);
@@ -122,6 +129,10 @@ public final class ZeroPhaseButterworthFilter {
         double[] ap = padCoeffs(a, nfilt);
 
         double[] y = new double[n];
+        if (nState == 0) {
+            for (int i=0; i<n; i++) y[i]=bp[0]*x[i];
+            return y;
+        }
         double[] z = new double[nState];
         System.arraycopy(zi, 0, z, 0, Math.min(zi.length, nState));
 
@@ -194,6 +205,8 @@ public final class ZeroPhaseButterworthFilter {
      * <p>右侧：{@code 2*x[n-1] - x[n-2], ..., 2*x[n-1] - x[n-1-padLen]}</p>
      */
     public double[] oddExtension(double[] x, int padLen) {
+        if (padLen < 0) throw new IllegalArgumentException("Negative padding");
+        SosZeroPhaseFilter.validateSignal(x,padLen+1);
         int n = x.length;
         double[] padded = new double[n + 2 * padLen];
 

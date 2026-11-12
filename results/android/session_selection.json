@@ -1,0 +1,25 @@
+{
+  "rule": "First three chronologically complete runs with distinct process IDs; no selection by performance",
+  "runs": [
+    {
+      "run": "session_1_1794454750631",
+      "process_id": 22281,
+      "status": "selected"
+    },
+    {
+      "run": "session_2_1794455138508",
+      "process_id": 24531,
+      "status": "selected"
+    },
+    {
+      "run": "session_3_1794455184057",
+      "process_id": 27479,
+      "status": "selected"
+    },
+    {
+      "run": "session_4_1794455197686",
+      "process_id": 30043,
+      "status": "additional_run_after_first_three"
+    }
+  ]
+}

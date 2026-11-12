@@ -26,6 +26,8 @@ public class MuscleSQI {
      * @return mSQI，范围 [0, 1]
      */
     public double compute(double[] signal, double samplingRate) {
+        if (samplingRate != 250) throw new IllegalArgumentException("Only 250 Hz is supported");
+        com.ecg.filter.butterworth.SosZeroPhaseFilter.validateSignal(signal,1);
         double total = BaselineSQI.totalEnergy(signal);
         if (total < 1e-12) {
             return 0.0;

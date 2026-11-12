@@ -1,0 +1,18 @@
+{
+  "python": "3.11.7",
+  "numpy": "1.26.4",
+  "scipy": "1.13.1",
+  "wfdb": "4.1.2",
+  "neurokit2": "0.2.12",
+  "protocol_sha256": "44f8a26f4d2fe228d1f3ae278e8fa3d4e5331769564d6e947398b2fd58f039fc",
+  "counts": {
+    "st": 2952,
+    "st_failures": 122,
+    "st_landmarks": 246,
+    "st_inventory": 90,
+    "hrv": 816,
+    "record_exclusions": 6,
+    "qrs": 384
+  },
+  "cohort_execution_protocol_sha256": "5aa640f7aab59e2e1166541ffe1c1f0c92e414be711791dfab9a79d130f8d651"
+}

@@ -1,0 +1,25 @@
+{
+  "selected_sessions": 3,
+  "archived_sessions": 4,
+  "distinct_selected_process_ids": [
+    22281,
+    24531,
+    27479
+  ],
+  "verified_phone_outputs": 9,
+  "samples_per_output": 150000,
+  "measured_calls": 21600,
+  "measured_full_frames": 21420,
+  "measured_replays": 180,
+  "checks": [
+    "signed APK hash",
+    "current Java and harness source hashes",
+    "all six embedded input/reference hashes",
+    "device/build agreement",
+    "independent process IDs",
+    "ordered call sequences and counts",
+    "replay and terminal counts",
+    "complete finite outputs against desktop reference"
+  ],
+  "status": "passed"
+}

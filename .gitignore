@@ -28,3 +28,18 @@ Thumbs.db
 
 # ---- Logs ----
 *.log
+
+# Public source records and scratch buffers are downloaded/rebuilt by scripts.
+data/
+results/revision/work/
+results/ablation_uncentered/work/
+results/clinical/work/
+results/android/mtp_import/
+results/android/exports/
+# Never distribute local signing credentials.
+*.jks
+*.keystore
+*.p12
+__pycache__/
+.pytest_cache/
+.venv/

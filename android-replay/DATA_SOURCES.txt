@@ -1,0 +1,42 @@
+ECG Replay Research - waveform attribution
+
+The research APK contains 600-second excerpts derived from MIT-BIH records 100
+and 207 and Fantasia record f1o01, plus the documented revision noise schedule.
+The saved desktop references and phone outputs are transformed versions of
+these signals. Units are microvolts, resampled to 250 Hz. The precise source
+files, processing recipe and hashes are supplied with the experiment scripts
+and manifests. The excerpt and noise transformations are part of this study;
+they are not original PhysioNet waveform distributions or clinical ground truth.
+
+MIT-BIH Arrhythmia Database, version 1.0.0.
+George Moody and Roger Mark. PhysioNet, 2005.
+https://physionet.org/content/mitdb/1.0.0/
+https://doi.org/10.13026/C2F305
+Moody GB, Mark RG. The impact of the MIT-BIH Arrhythmia Database.
+IEEE Engineering in Medicine and Biology 20(3):45-50, 2001.
+
+Fantasia Database, version 1.0.0.
+Chung-Kang Peng and Lewis Lipsitz. PhysioNet, 2003.
+https://physionet.org/content/fantasia/1.0.0/
+https://doi.org/10.13026/C2RG61
+Iyengar N, Peng C-K, Morin R, Goldberger AL, Lipsitz LA.
+Age-related alterations in the fractal scaling of cardiac interbeat interval
+dynamics. American Journal of Physiology 271:1078-1084, 1996.
+
+MIT-BIH Noise Stress Test Database, version 1.0.0.
+George Moody and Roger Mark. PhysioNet, 1999.
+https://physionet.org/content/nstdb/1.0.0/
+https://doi.org/10.13026/C2HS3T
+Moody GB, Muldrow WE, Mark RG. A noise stress test for arrhythmia detectors.
+Computers in Cardiology 11:381-384, 1984.
+
+PhysioNet platform acknowledgement:
+Pollard T, Moody BE, Lehman L, Gow B, Fernandes C, Xie C, Johnson A,
+Mark RG, Heldt T. PhysioNet as a global platform for biomedical research.
+Nature Health, 2026. https://doi.org/10.1038/s44360-026-00096-z
+
+All three dataset pages identify the Open Data Commons Attribution License
+v1.0 (ODC-By 1.0), checked 12 November 2026. Preserve the source attribution
+and applicable data license when redistributing the APK, excerpts or derived
+outputs. The Java source code's MIT license does not replace the data license.
+License: https://opendatacommons.org/licenses/by/1-0/

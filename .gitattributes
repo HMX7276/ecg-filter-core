@@ -1,0 +1,7 @@
+# The measured APK records exact source/asset hashes. Preserve bytes across OSes.
+# This disables newline conversion without disabling textual diff inspection.
+* -text
+*.apk binary
+*.f64 binary
+*.pdf binary
+*.png binary

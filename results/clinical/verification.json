@@ -1,0 +1,21 @@
+{
+  "metric_unit_checks": {
+    "passed": 9,
+    "failed": 0,
+    "command": "python -m pytest scripts/test_clinical_metrics.py -q"
+  },
+  "records_attempted": 178,
+  "complete_waveform_records": 172,
+  "native_missing_records_excluded": 6,
+  "qrs_rows": 384,
+  "hrv_rows": 816,
+  "st_rows_including_three_landmark_offsets": 2952,
+  "st_peak_failures": 122,
+  "source": "Published annotation data and actual Java outputs",
+  "combined_python_suite": {
+    "passed": 45,
+    "failed": 0,
+    "command": "python -m pytest scripts/test_revision.py scripts/test_clinical_metrics.py -q",
+    "notes": "14 Matplotlib/Pyparsing dependency deprecation warnings; no test failure"
+  }
+}

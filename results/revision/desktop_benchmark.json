@@ -1,0 +1,17 @@
+{
+  "warmup_replays": 5,
+  "measured_replays": 20,
+  "measured_full_frames": 2380,
+  "mean_ms": 0.525268,
+  "median_ms": 0.5164,
+  "p95_ms": 0.6276,
+  "max_ms": 1.7759,
+  "mean_replay_ms": 62.683555,
+  "duration_s": 600,
+  "window_s": 10,
+  "hop_s": 5,
+  "includes": "BWA, centered mSQI, calibration, selection, SOS, overlap-add",
+  "excludes": "acquisition, disk IO, caller chunk preparation",
+  "cpu_identifier": "Intel64 Family 6 Model 167 Stepping 1, GenuineIntel",
+  "logical_processors": 16
+}

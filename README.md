@@ -1,151 +1,108 @@
 # ecg-filter-core
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22136345.svg)](https://doi.org/10.5281/zenodo.22136345)
+Dependency-free Java forward-backward Butterworth filtering for **delayed ECG processing**.
 
-零外部依赖的 Java 心电（ECG）零相移 Butterworth 滤波库，包含信号质量指数（SQI）计算与自适应滤波配置选择。
+v1.1.0 返修版：新增 SOS、BWA 会话校准、去均值 mSQI、归一化窗口重叠相加与复现实验。旧直接型接口保留用于对照，旧固定 bSQI 自适应接口已弃用。
 
-A zero-dependency Java library for zero-phase Butterworth filtering of ECG signals, including signal quality index (SQI) computation and adaptive filter selection.
+Versioned release: [v1.1.0](https://github.com/HMX7276/ecg-filter-core/releases/tag/v1.1.0).
 
-## 特性 / Features
+## Scope and timing
 
-- **零相移 Butterworth 滤波**：完整实现 `scipy.signal.filtfilt` 的 Java 复现（正向滤波 → 反转 → 反向滤波 → 去填充）
-- **零外部依赖**：所有数学运算（高斯消元、Goertzel 频带能量）均自实现，无 Apache Commons Math / ND4J / JTransforms 等矩阵库
-- **信号质量指数（SQI）**：基线漂移指数（bSQI）、高频噪声指数（mSQI）、峰度指数（kSQI）
-- **自适应滤波**：基于 SQI 自动选择最合适的滤波配置，内置滞后机制防闪烁
-- **4 套预定义配置**：覆盖静息、基线漂移、肌电/工频噪声、综合噪声四类场景
+- Inputs: 250 Hz, microvolts. Other sampling rates are rejected.
+- Odd padding and step-steady initial states match SciPy's padding convention. This is **not Gustafsson's method**.
+- Use SOS for new applications. No universal numerical-error floor or clinical-safety claim is made.
+- Streaming: 10 s frames / 5 s hop; first output after 10 s acquisition, emitted samples 5-10 s old plus computation/delivery.
+- Calibration: 11 overlapping frames spanning the first 60 s; three-candidate hysteresis adds two hops (10 s).
+- Calibration-complete status does not certify clean input. Initial contamination can cause failure.
+- Zero phase does not guarantee unchanged amplitude/ST/R-peak measurements. Overlap-add does not reproduce whole-record filtering.
 
-> **mSQI 指标说明**：mSQI 对 **>35Hz 频段能量**敏感，可同时响应**肌电噪声（EMG）**和**工频干扰（powerline interference）**；其阈值以 50Hz 工频为标定基准。
-
-## 与 SciPy 的精度 / Numerical Equivalence with SciPy
-
-Java 实现与 `scipy.signal.filtfilt` 的算法流程完全一致：
-- 正向-反向零相位滤波结构
-- Gustafsson 稳态初始条件（`lfilter_zi`）
-- 奇数延拓填充（pad = 3 × max(len(b), len(a))）
-
-由于 0.05 Hz 高通滤波器的极点接近单位圆（z≈1），`filtfilt` 的双向递推会放大双精度浮点（IEEE 754 double）的舍入差异。两个数据库的实测结果（生产配置，10 秒记录，250 Hz）：
-
-| 数据集 | 记录数 | 相对 SciPy 的 RMSE（均值 / 最大） | 最小 Pearson r |
-|--------|-------|--------------------------------|---------------|
-| MIT-BIH Arrhythmia | 48 | 1.00×10⁻³ μV / 6.22×10⁻³ μV | 0.999999999987 |
-| PTB-XL | 500 | 4.04×10⁻⁴ μV（均值） | — |
-
-> **结论**：差异处于滤波器条件数决定的数值界限之内，Java 实现与 SciPy 在机器精度上等价，可安全替代。
-
-## 预定义滤波配置 / Predefined Filter Configs
-
-| 配置 | 高通截止 | 低通截止 | 阶数 | 适用场景 |
-|------|---------|---------|------|---------|
-| `CONFIG_DEFAULT` | 0.05 Hz | 35 Hz | 4 | 静息、信号质量好 |
-| `CONFIG_BASELINE_HEAVY` | 0.10 Hz | 35 Hz | 4 | 基线漂移严重 |
-| `CONFIG_MUSCLE_HEAVY` | 0.05 Hz | 30 Hz | 4 | 肌电噪声/工频干扰大（mSQI 响应 >35Hz 能量） |
-| `CONFIG_CONSERVATIVE` | 0.10 Hz | 30 Hz | 2 | 综合噪声大（防数值不稳定） |
-
-所有系数由 `scipy.signal.butter` 精确生成后硬编码，**默认采样率 250 Hz**。若需支持其他采样率（如 MIT-BIH 的 360 Hz），需用 SciPy 重新生成对应系数。
-
-## 使用示例 / Usage
-
-### Maven 依赖
-
-```xml
-<dependency>
-    <groupId>com.ecg</groupId>
-    <artifactId>ecg-filter-core</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
-
-### 固定配置滤波
+## Fixed SOS API
 
 ```java
+import com.ecg.filter.butterworth.SosZeroPhaseFilter;
 import com.ecg.filter.adaptive.FilterConfig;
-import com.ecg.filter.butterworth.ZeroPhaseButterworthFilter;
-
-ZeroPhaseButterworthFilter filter = new ZeroPhaseButterworthFilter();
-double[] signal = ...; // ECG 信号，250 Hz
-double[] filtered = filter.filter(signal, FilterConfig.CONFIG_DEFAULT);
+double[] output = new SosZeroPhaseFilter().filter(inputUv, FilterConfig.CONFIG_DEFAULT);
 ```
 
-### 自适应滤波
+High-pass and low-pass are filtered separately forward and backward. Cutoffs below are single-pass -3 dB frequencies (approximately -6 dB after two passes); order is per stage, per pass.
+
+| Configuration | HP Hz | LP Hz | Order |
+|---|---:|---:|---:|
+| CONFIG_DEFAULT | 0.05 | 35 | 4 |
+| CONFIG_BASELINE_HEAVY | 0.10 | 35 | 4 |
+| CONFIG_MUSCLE_HEAVY | 0.05 | 30 | 4 |
+| CONFIG_CONSERVATIVE | 0.10 | 30 | 2 |
+
+The last name is a historical mixed-noise label, not a certified safety mode.
+
+## Delayed stream API
 
 ```java
-import com.ecg.filter.adaptive.AdaptiveZeroPhaseFilter;
-
-AdaptiveZeroPhaseFilter adaptive = new AdaptiveZeroPhaseFilter();
-double[] filtered = adaptive.filter(signal, 250); // 250 = 采样率
+import com.ecg.filter.streaming.OverlapAddStream;
+OverlapAddStream stream = new OverlapAddStream();
+double[] finalizedSamples = stream.accept(chunkUv); // repeat per incoming chunk
+// Call only at the actual end of a recording:
+double[] remainingSamples = stream.finish();
 ```
 
-### 信号质量指数（SQI）
+Use a fresh stream for each record. Output can be empty until a full frame arrives. Total output length after finish equals input length. End padding repeats the endpoint and holds the last configuration, rather than inventing measured future data. Nonfinite input is rejected. Bounded frame state excludes caller buffers and JVM overhead; no minimum-heap claim is made.
 
-```java
-import com.ecg.filter.model.SQIResult;
-import com.ecg.filter.sqi.SQIComputer;
+The deprecated `AdaptiveZeroPhaseFilter` retains old fixed bSQI thresholds and independent windows. It does not implement this revised pipeline. Short legacy blocks fail explicitly instead of silently changing padding semantics.
 
-SQIComputer computer = new SQIComputer();
-SQIResult sqi = computer.compute(signal, 250);
-// sqi.bSQI: 基线漂移指数（0-0.5Hz 能量占比）
-// sqi.mSQI: 高频噪声指数（>35Hz 能量占比，可响应肌电噪声和工频干扰，阈值以 50Hz 工频为标定基准）
-// sqi.kSQI: 峰度指数（正常 ECG >3，噪声大时降低）
+## Reproduce
+
+Python 3.11 and JDK 17+ (set JAVA_HOME) are required. Runtime Java code has no dependencies and is compiled for Java 8 compatibility. Tests executed on JDK 21.0.9.
+
+```text
+python -m venv .venv
+# Activate the environment with your shell, then:
+python -m pip install -r scripts/requirements.txt
+python scripts/generate_sos.py
+python -m pytest scripts/test_revision.py -q
+python scripts/download_data.py
+python scripts/revision_experiments.py
+python scripts/summarize_revision.py
+# Regenerate figures alone from saved CSV files:
+python scripts/render_figures.py
+# Independent uncentered-index ablation:
+python scripts/revision_experiments.py --uncentered
 ```
 
-## 运行测试 / Run Tests
+Data download: all 48 MIT-BIH records; Fantasia f1o01-04 and f1y01-04; NSTDB bw/em/ma; first 600 s. URLs, leads, units and SHA256 values are saved in data/manifest.json. The calibration/assessment split is saved in results/revision/split.json; MIT-BIH 201/202 stay together. Raw data and scratch buffers are excluded from Git.
 
-```bash
-git clone https://github.com/HMX7276/ecg-filter-core.git
-cd ecg-filter-core
-mvn test
+Outputs include every record/window CSV and 300 dpi PNG plus vector PDF figures, particularly fig1_numerical_equivalence, fig3_stability and fig5_streaming. summarize_revision.py adds participant intervals, Figure 2 and desktop timing. Paths are repository-relative. Original submission figures with unavailable original records/logs cannot be reconstructed from screenshots.
+
+Run `mvn test` when Maven is installed, or compile src/main/java and src/test/java using the JUnit console runner and include src/test/resources. Python tests invoke actual Java and cover SciPy equivalence, orders 2/4/6/8, low cutoffs, configurations, BWA, chunk invariance, terminal lengths and DC invariance. DiagnosticFidelityTest only checks a real filter call's length/finiteness; analytical ST measurements are in the experiment script, not clinical validation.
+
+## Retrospective clinical-record extension
+
+```text
+python scripts/download_clinical.py
+python scripts/clinical_experiments.py --workers 3
+python scripts/summarize_clinical.py
+python -m pytest scripts/test_clinical_metrics.py -q
 ```
 
-测试包括：
-- `SciPyEquivalenceTest`：与 `scipy.signal.filtfilt` 的精度对比
-- `SQITest`：合成噪声信号的 SQI 识别
-- `AdaptiveSelectorTest`：自适应配置切换（含滞后机制）
-- `DiagnosticFidelityTest`：诊断特征保真度（框架预留）
+The exploratory plan and disclosed technical amendments are in `docs/retrospective_protocol.json`. The extension uses all 48 MIT-BIH records (47 participants), attempts all 40 Fantasia subjects (34 evaluated; six excluded for native missing ECG samples), and all 90 European ST-T records (79 participants). It invokes the actual Java processing branches, uses the same XQRS detector in each branch, and retains unfavorable outcomes. Results and downloadable-source hashes are under `results/clinical`.
 
-## 项目结构 / Structure
+European ST-T analysis accepts 246 of 368 parsed expert peak labels across 68 participants; all 122 landmark/reference failures are inventoried. This is annotation-assisted peak measurement, not autonomous episode detection. End-to-end HRV compares uncorrected detected intervals with reference NN intervals; its errors include ectopy and detection effects. The separate matched-NN timing audit conditions on annotated beat classes and successful matching. Neither is a safety certificate. Participant-level inference groups repeated-subject records and reports sparse nonzero pairs, exact sign enumeration where appropriate, and Holm adjustment across four exploratory contrasts.
 
-```
-com.ecg.filter
-├── butterworth/          # 零相移 Butterworth 滤波核心
-│   └── ZeroPhaseButterworthFilter
-├── adaptive/             # 自适应滤波
-│   ├── FilterConfig        # 4 套预定义配置（枚举）
-│   ├── AdaptiveFilterSelector
-│   └── AdaptiveZeroPhaseFilter
-├── sqi/                  # 信号质量指数
-│   ├── BaselineSQI
-│   ├── MuscleSQI
-│   ├── KurtosisSQI
-│   └── SQIComputer
-├── model/                # 数据模型
-│   └── SQIResult
-└── utils/                # 数学工具
-    ├── GaussianElimination # 高斯消元（自实现）
-    └── Goertzel            # 频带能量（自实现）
-```
+The complete verification set comprises 36 cross-language Python checks, nine clinical metric/statistics checks and 16 JUnit tests. Test success establishes the stated software behavior, not clinical efficacy.
 
-## 重要约定 / Important Convention
+## Physical Android replay
 
-**QRS 宽度变化**（若后续接入诊断特征保真度）在此处明确定义为
-"滤波前后 QRS 起止点检测位置的绝对偏移量之和"，而非"QRS 持续时间的变化"。
+Build, run, transfer and verify instructions are in [android-replay/README.md](android-replay/README.md). The app uses stored public ECG excerpts and exports per-call timing, resource observations, device/build metadata and complete output arrays. One app session contains three input records; three independent app processes are required by the protocol. The supplied signed APK and raw result files allow verification without rebuilding or access to a signing key. Device evidence and its scope are documented in [docs/android_benchmark_protocol.md](docs/android_benchmark_protocol.md).
 
-## 数据来源 / Data
+## Evidence and release status
 
-本仓库不包含任何 ECG 原始数据。论文实验使用的四个数据库均公开于 PhysioNet，请自行下载：
-[MIT-BIH Arrhythmia Database](https://physionet.org/content/mitdb/)、
-[MIT-BIH Noise Stress Test Database](https://physionet.org/content/nstdb/)、
-[PTB-XL](https://physionet.org/content/ptb-xl/)、
-[Fantasia](https://physionet.org/content/fantasia/)。
-`src/test/resources/scipy_reference.csv` 为 SciPy 参考输出的单元测试数据（合成信号），非 PhysioNet 记录。
+Repeated-SNR inference aggregates by participant, combining 201/202. The fixed shared noise excerpts and exploratory DC correction limit independent generalization claims. Negative SNR results are retained. Desktop measurements are not Android measurements; see docs/android_benchmark_protocol.md.
 
-## 引用 / Citation
+Upstream baseline: bffd1ff0d79a5a0e4736a6f29e380c147298748c.
+Original archive: https://doi.org/10.5281/zenodo.22136345.
+The revised implementation and record-level evidence are distributed as GitHub release v1.1.0. Cite that version for the revised experiments. The original Zenodo DOI identifies the historical archive and is not evidence that v1.1.0 has been deposited there.
 
-如果本代码对你的研究有帮助，请引用：
-
-> He, L. *Zero-Phase Butterworth Filtering for Resource-Constrained ECG Monitoring: A Validated Pure-Java Implementation with Signal-Quality-Guided Adaptive Configuration.* Biomedical Signal Processing and Control (under review), 2026.
-
-代码存档（永久 DOI）：<https://doi.org/10.5281/zenodo.22136345>
+The signed measured APK is included at `android-replay/ecg-replay-research.apk`; `python scripts/summarize_android.py` verifies its source and asset hashes and all four raw sessions, selecting the first three independent processes. This works directly from the release archive without an Android SDK or private signing key. Full public source waveforms are downloaded separately; the APK contains three attributed public-data excerpts under the terms in `android-replay/DATA_SOURCES.txt`.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE). Source datasets retain their own published terms.

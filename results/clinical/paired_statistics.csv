@@ -1,0 +1,5 @@
+domain,metric,n_participants,n_nonzero_pairs,p_calculation,difference,mean_difference,median_difference,ci_low,ci_high,wilcoxon_p,shapiro_p,holm_p
+mitdb,f1,47,1,exact sign enumeration,adaptive minus fixed overlap,-4.9468304354093255e-06,0.0,-1.4840491306227977e-05,0.0,1.0,3.614383190146987e-15,1.0
+fantasia,abs_error_sdnn_ms,34,4,exact sign enumeration,adaptive minus fixed overlap,-0.0002720659242420696,0.0,-0.0009222760622550799,8.861433351359902e-05,0.875,1.995891517876151e-12,1.0
+fantasia,abs_error_rmssd_ms,34,4,exact sign enumeration,adaptive minus fixed overlap,-0.0008953671278051095,0.0,-0.0026303125964921162,0.0002829524258122675,0.375,3.2101417343759055e-11,1.0
+edb,abs_error_uv,68,43,normal approximation,adaptive minus fixed overlap,-1.1166100466824782,0.0,-2.887481641332661,0.7105252688647079,0.32210271366949184,1.0211181185470557e-07,1.0

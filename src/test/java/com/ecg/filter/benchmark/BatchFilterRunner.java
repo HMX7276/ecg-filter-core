@@ -65,6 +65,7 @@ public class BatchFilterRunner {
             double[] signal = BenchmarkRunner.readCsv(csv.getAbsolutePath());
             double[] filtered;
             if (adaptive) {
+                adaptiveFilter.getSelector().reset(); // Do not transfer hysteresis across records.
                 filtered = adaptiveFilter.filter(signal, 250);
             } else {
                 filtered = fixedFilter.filter(signal, config);

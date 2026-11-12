@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "specified_date": "2026-11-12",
+  "status": "Exploratory retrospective extension. Written before the new annotation-based endpoint analyses; not a registered protocol or prospective clinical study.",
+  "sampling_hz": 250,
+  "missing_data_amendment": "During native waveform input validation, before aggregate clinical endpoint analysis, missing ECG samples were encountered. Records with any nonfinite ECG samples in the specified input interval are excluded from the primary complete-record analysis without interpolation. Publish record identifiers, missing-sample counts and gap lengths; report selected versus evaluated counts and the resulting selection limitation. This technical exclusion policy is an exploratory protocol amendment.",
+  "methods": ["unfiltered", "whole_sos_default", "fixed_overlap_default", "adaptive_overlap"],
+  "implementation": "Actual Java SOS and OverlapAddStream; no retraining or threshold optimization using clinical outcomes.",
+  "mitdb": {
+    "selection": "All 48 records, full duration, MLII if present otherwise first channel; all reference beat symbols retained including paced and unclassifiable beats.",
+    "reference": "Published atr beat annotations, nearest-sample resampling from native rate; 201/202 grouped as one participant.",
+    "detector": "WFDB 4.1.2 XQRS, default configuration and learning enabled, identical for all processing branches, waveform supplied in mV.",
+    "evaluation_interval": "60 s through duration minus 10 s; startup/calibration and terminal padding excluded consistently.",
+    "matching": "WFDB compare_annotations one-to-one matching, tolerance 150 ms rounded to 38 samples; sensitivity analysis at 50 ms rounded to 13 samples.",
+    "outcomes": ["TP FP FN", "sensitivity", "positive predictive value", "F1", "matched absolute localization error median and p95"],
+    "interpretation": "Performance of the specified detector/preprocessor pipeline on annotated records, not a clinical safety certificate. Detector internal band-pass can attenuate preprocessing differences."
+  },
+  "fantasia": {
+    "selection": "All 40 subjects, first 1870 s including 10 s of terminal context; six nonoverlapping 300 s intervals beginning at 60 s, ending at 1860 s.",
+    "reference": "Published ecg annotations, normal beats only; each RR pair must consist of adjacent normal reference beats."
+    ,"detector": "Same fixed XQRS as MIT-BIH.",
+    "primary_outcomes": ["RR MAE on consecutive correctly matched beat pairs", "SDNN absolute error", "RMSSD absolute error", "mean NN absolute error"],
+    "hrv_rule": "Primary end-to-end interval metrics use all detected intervals without retrospective beat correction, compared with annotated normal-to-normal reference. Normal reference intervals 300 to 2000 ms retained, RMSSD uses consecutive eligible intervals. Also report detection errors and matched coverage; excluded or undefined windows explicitly listed.",
+    "interpretation": "Reference annotations have finite sampling precision; healthy resting ECG does not establish ischemia, arrhythmia or wearable safety."
+    ,"secondary_timing_audit": "After inspection of initial HRV outliers revealed ectopic-beat labels despite the healthy cohort description, add a descriptive annotation-assisted analysis of SDNN/RMSSD on identical consecutive correctly matched normal beat pairs. Only consecutive eligible pairs contribute successive differences. Publish matching coverage. Original end-to-end detected-RR versus reference-NN endpoints and four planned contrasts remain unchanged; their error includes lack of ectopy correction, not only filter effects."
+  },
+  "edb": {
+    "selection": "All 90 European ST-T records, full 2 h, both leads; evaluate every uppercase AST peak-deviation annotation with its recorded sign and magnitude. Lowercase axis-shift labels are not ischemic reference events.",
+    "reference": "Published expert ST deviation relative to subject reference waveform; not absolute ST level or a samplewise clean waveform.",
+    "landmarks": "Use annotated beat locations; orient the raw local waveform by median R polarity and apply NeuroKit2 0.2.12 DWT delineation on raw context only. Freeze all accepted landmarks across processing branches. Reference context first 40 s, reference beats at 1 to 30 s. Peak context +/-12 s; use first annotated beat at or after the peak marker. QRS onset/offset must exist with R-onset 0 to 150 ms, offset-R 0 to 180 ms and QRS width 40 to 250 ms. No outcome-dependent manual adjustment or fallback J point.",
+    "measurement": "ST median within +/-8 ms of J+80 ms, or J+60 ms when annotation-derived preceding RR <500 ms. Iso-electric estimate median 20 to 4 ms before QRS onset. Subtract each branch's median reference ST level in first 30 s. At least 5 usable reference beats required. Record all missing/delineation failures.",
+    "outcomes": ["signed and absolute error versus expert peak deviation", "change from unfiltered estimate", "sign agreement", "fraction of expert peaks still exceeding 100 uV with correct sign", "landmark/reference evaluability coverage"],
+    "sensitivity": "Repeat measurement using J-8 ms and J+8 ms, preserving the same beats, to expose delineation uncertainty.",
+    "interpretation": "Annotation-assisted retrospective peak measurement, not autonomous event detection. Selection of annotated positive peaks does not permit specificity or full episode-detection sensitivity. Raw-landmark and reference-level estimation errors contribute to absolute error."
+  },
+  "statistics": {
+    "unit": "Participant: average windows, events and leads within participant before intervals or paired comparisons; explicit EDB repeated-subject map and MIT 201/202 grouping.",
+    "intervals": "5000 participant bootstrap resamples, percentile 95% interval, seed 20261112.",
+    "comparisons": "Adaptive versus fixed-overlap: MIT F1, Fantasia SDNN and RMSSD absolute errors, EDB absolute expert-deviation error. Two-sided signed-rank tests with Holm correction across these four exploratory contrasts; all-zero differences return p=1. A sparse-pair audit uses exact sign enumeration with average ranks for at most 20 nonzero pairs, and the SciPy normal approximation for more than 20; zero pairs are omitted from rank inference and their counts are disclosed.",
+    "reporting": "Per-record/per-window/per-peak CSVs, coverage, failures and unfavorable results retained. No noninferiority or safety conclusion from nonsignificance."
+  },
+  "android": {
+    "device_requested": "Xiaomi 17 Pro; confirm actual build properties from device",
+    "inputs": "Three 600 s revision streams: MIT-BIH 100, MIT-BIH 207, Fantasia f1o01, original revision additive-noise schedule; 250 Hz microvolts, SHA256 recorded.",
+    "runs": "Three independently restarted app processes, five warmup and twenty measured replays per input, input order rotated per session.",
+    "scope": "Actual new adaptive Java pipeline, 1250-sample chunks, all 119 full frames per replay; separate terminal call. Input chunks preloaded; timing excludes disk I/O, logging and caller chunk preparation.",
+    "correctness": "Compare one complete output per input against stored desktop-Java reference, length/finite checks and RMSE/max absolute error; save output files for independent host checking.",
+    "resources": "Record build/SoC/API/ABI, APK and source hashes, battery/charging/temperature, thermal/power state, per-call nanoseconds, observed Java heap and PSS snapshots, GC counters. Observed sampled heap is not guaranteed peak live state.",
+    "latency": "10 s input availability and 5 s hop remain algorithmic delays; accelerated replay timing is not end-to-end sensor/alarm latency."
+  }
+}

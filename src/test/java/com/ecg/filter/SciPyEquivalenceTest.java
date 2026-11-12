@@ -13,23 +13,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * 与 SciPy 的精度等价性测试。
- *
- * <p>读取预生成的 SciPy 参考数据（src/test/resources/scipy_reference.csv），
- * 对比 Java 零相位滤波与 scipy.signal.filtfilt 的输出。</p>
- *
- * <p><b>数值精度说明（重要）：</b></p>
- * <ul>
- *   <li>Java 实现与 SciPy 在<b>算法层面完全等价</b>：若用 SciPy 自身的 lfilter
- *     复现 filtfilt 流程，RMSE 精确为 0。</li>
- *   <li>但 Java（double）与 SciPy（C 实现的 lfilter）存在约 1e-11 的浮点舍入差异
- *     （运算顺序不同）。对于截止频率极低（如 0.05 Hz）的高通滤波器，其极点
- *     接近单位圆，filtfilt 的双向结构会将这一舍入差异放大约 10^8 倍，
- *     最终 RMSE 约 1e-3 μV（相对信号幅度 ~1e-6，工程上完全可忽略）。</li>
- *   <li>该放大效应随截止频率升高迅速衰减：0.1 Hz → 3e-4，0.5 Hz → 6e-7，
- *     1.0 Hz → 6e-8。这是数值稳定性特性，而非算法错误。</li>
- * </ul>
+/** Legacy direct-form regression on the stored synthetic reference fixture.
+ * Tolerances apply to this fixture, not an intrinsic accuracy floor or a
+ * guarantee of clinical equivalence. New SOS checks use independent SciPy data.
  */
 public class SciPyEquivalenceTest {
 

@@ -1,0 +1,14 @@
+{
+  "python": "3.11.7",
+  "numpy": "1.26.4",
+  "scipy": "1.13.1",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "java": "openjdk version \"21.0.9\" 2025-10-21\nOpenJDK Runtime Environment (build 21.0.9+-14787801-b1163.94)\nOpenJDK 64-Bit Server VM (build 21.0.9+-14787801-b1163.94, mixed mode)\n",
+  "seed": 20261112,
+  "records": 56,
+  "centered_msqi": true,
+  "analysis_unit": "record descriptives; subject-level paired inference combines MIT-BIH 201/202",
+  "date": "2026-11-12",
+  "source_commit": "bffd1ff0d79a5a0e4736a6f29e380c147298748c",
+  "cpu_model": "Intel Core i7-11700KF @ 3.60 GHz"
+}

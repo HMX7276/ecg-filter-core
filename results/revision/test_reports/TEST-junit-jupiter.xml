@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="JUnit Jupiter" tests="16" skipped="0" failures="0" errors="0" time="0.126" timestamp="2026-11-12T10:15:51">
+<testcase name="calibrationAndHysteresis()" classname="com.ecg.filter.RevisionContractTest" time="0.001">
+</testcase>
+<testcase name="testKurtosisOfCleanEcgExceedsGaussian()" classname="com.ecg.filter.SQITest" time="0">
+</testcase>
+<testcase name="testLfilterZiMatchesHardcoded()" classname="com.ecg.filter.SciPyEquivalenceTest" time="0">
+</testcase>
+<testcase name="testDefaultSelection()" classname="com.ecg.filter.AdaptiveSelectorTest" time="0">
+</testcase>
+<testcase name="testNoiseReducesKurtosis()" classname="com.ecg.filter.SQITest" time="0.005">
+</testcase>
+<testcase name="testHysteresisResetsOnDifferentTarget()" classname="com.ecg.filter.AdaptiveSelectorTest" time="0.015">
+</testcase>
+<testcase name="testMuscleHeavySelection()" classname="com.ecg.filter.AdaptiveSelectorTest" time="0">
+</testcase>
+<testcase name="testBaselineHeavySelection()" classname="com.ecg.filter.AdaptiveSelectorTest" time="0">
+</testcase>
+<testcase name="testFilterPreservesLength()" classname="com.ecg.filter.DiagnosticFidelityTest" time="0.001">
+</testcase>
+<testcase name="testBandPassEquivalence()" classname="com.ecg.filter.SciPyEquivalenceTest" time="0.033">
+</testcase>
+<testcase name="testHighPassEquivalence()" classname="com.ecg.filter.SciPyEquivalenceTest" time="0.028">
+</testcase>
+<testcase name="inputAndLifecycleContracts()" classname="com.ecg.filter.RevisionContractTest" time="0.004">
+</testcase>
+<testcase name="testConservativeSelection()" classname="com.ecg.filter.AdaptiveSelectorTest" time="0">
+</testcase>
+<testcase name="testBaselineSqiDetectsBaselineDrift()" classname="com.ecg.filter.SQITest" time="0.001">
+</testcase>
+<testcase name="testMuscleSqiDetectsMuscleNoise()" classname="com.ecg.filter.SQITest" time="0.002">
+</testcase>
+<testcase name="testHysteresisRequiresThreeConsecutiveFrames()" classname="com.ecg.filter.AdaptiveSelectorTest" time="0">
+</testcase>
+</testsuite>

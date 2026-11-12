@@ -1,0 +1,5 @@
+method,tp,fp,fn
+adaptive_overlap,104701,485,536
+fixed_overlap_default,104701,484,536
+unfiltered,104701,485,536
+whole_sos_default,104701,484,536

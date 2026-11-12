@@ -1,0 +1,7 @@
+database,record,subject,reason,missing_samples,native_fs,scanned_seconds,longest_gap_seconds,first_missing_s,last_missing_s
+fantasia,f2o02,fantasia_f2o02,nonfinite_native_ECG_no_imputation,39,250,1870.0,0.156,3.728,3.88
+fantasia,f2o10,fantasia_f2o10,nonfinite_native_ECG_no_imputation,4,250,1870.0,0.016,1769.636,1769.648
+fantasia,f2y05,fantasia_f2y05,nonfinite_native_ECG_no_imputation,154,250,1870.0,0.296,106.56,113.124
+fantasia,f2y08,fantasia_f2y08,nonfinite_native_ECG_no_imputation,259,250,1870.0,1.036,393.996,395.028
+fantasia,f2y09,fantasia_f2y09,nonfinite_native_ECG_no_imputation,160,250,1870.0,0.364,113.492,126.8
+fantasia,f2y10,fantasia_f2y10,nonfinite_native_ECG_no_imputation,446,250,1870.0,0.392,610.468,742.16

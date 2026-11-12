@@ -1,0 +1,43 @@
+{
+  "protocol": "docs/retrospective_protocol.json",
+  "inputs": [
+    "mitdb_100",
+    "mitdb_207",
+    "fantasia_f1o01"
+  ],
+  "format": "little-endian float64 microvolts, 250 Hz",
+  "source_files": {
+    "src/main/java/com/ecg/filter/adaptive/AdaptiveFilterSelector.java": "9ea2bab272162ffd0212302f1d0a4ad76b4c34d4a90715a049203f12114f6257",
+    "src/main/java/com/ecg/filter/adaptive/AdaptiveZeroPhaseFilter.java": "be63d9d9a61af0729792f1f014ebbccb2e20f06294f10710e3910d491e0d765b",
+    "src/main/java/com/ecg/filter/adaptive/FilterConfig.java": "70b5b8d94b2f4ec743a6bdca2742ac009ceec31ef4784c659cd5995e8441c189",
+    "src/main/java/com/ecg/filter/adaptive/SessionCalibratedSelector.java": "b609d288954858093228b1c0aad393fb7fd3a3f068a337f0239b44a4283f9029",
+    "src/main/java/com/ecg/filter/butterworth/SosCoefficients.java": "8561a52e593e6df7b7b31b3163187854c9658fd7a3ea801b17a12e0655025448",
+    "src/main/java/com/ecg/filter/butterworth/SosZeroPhaseFilter.java": "08a329aecdbcd80c8eea99ecbaf2ec749926f75a56adbc70188dfd6d3f429312",
+    "src/main/java/com/ecg/filter/butterworth/ZeroPhaseButterworthFilter.java": "9d2e6ee651336eded1a4ad7c024356d76a1a8ba6820df8e55d023cfd7c58a17c",
+    "src/main/java/com/ecg/filter/model/SQIResult.java": "f80434af812ab0ee9cc3e8e1511eca6788291d76b00634fa1ca814e779a45cb1",
+    "src/main/java/com/ecg/filter/sqi/BaselineSQI.java": "ee12ef3b6d65be87dfc5cec075dcf801a3a4d8c9fd0fc6b3cb210e3cdced6f64",
+    "src/main/java/com/ecg/filter/sqi/BaselineWanderAmplitude.java": "cbfbedbaa15f08d6200a9d088d966d72b2d90f5c2509b02bfe29ead4b426bff7",
+    "src/main/java/com/ecg/filter/sqi/CenteredMuscleSQI.java": "38458909c1af0088bf2d689a1dec607826438a83fd52ca4678cbc5b58d789c63",
+    "src/main/java/com/ecg/filter/sqi/KurtosisSQI.java": "bc3a97c7afb218ea3417827c44433617f950500d5711066d67c766fb73634150",
+    "src/main/java/com/ecg/filter/sqi/MuscleSQI.java": "cf008b8fc668ebfc02ae440a217ba2168a0f07b58fb23cdaa99df4067d7bd329",
+    "src/main/java/com/ecg/filter/sqi/SQIComputer.java": "aed2927fe81efdf176d94639e221ac94bbd9498e109bff2a5b62cf32460a486d",
+    "src/main/java/com/ecg/filter/streaming/OverlapAddStream.java": "c9e983d4a2d6ae2f584c7063b3cc00814ecf11ff40e6fe54192b2abb9bb2b130",
+    "src/main/java/com/ecg/filter/utils/GaussianElimination.java": "cb6af7b1fc341a768e3487ae0e40919c57a8660e81cead4330b0e7606cd1c551",
+    "src/main/java/com/ecg/filter/utils/Goertzel.java": "957a8ec9a38feaa5b6808896c9ed436c1ec158e71d6c2c525d23e8fbef37283c",
+    "android-replay/src/org/ecgrevision/replay/ReplayActivity.java": "248e0b0f2e5b36cd00e37134efd7091c67ecece5dfcfa2b2e7262240a82f11da"
+  },
+  "assets": {
+    "fantasia_f1o01_input.f64": "41921cc0326a4a2fe6e92dfc9912746c91c5fb45a3495a470af285fc6e1c2e01",
+    "fantasia_f1o01_reference.f64": "408e599b72fb1b752d17b331a8cfee011b17a9e66cf0fb1cd63f2cd6cf8130fb",
+    "mitdb_100_input.f64": "2bef54ae6b688b66e390fb4d274b248c9e2c04332b338afcd740b090689a5e15",
+    "mitdb_100_reference.f64": "979470cf7914ec681984462cb0ff6c6ce5d68ce00796d409a0b3ab9defc35e85",
+    "mitdb_207_input.f64": "5dd5c777abff77fc7c48f37b18fc63ceaa3b45b929f3248d7e0180a8d9102514",
+    "mitdb_207_reference.f64": "ebdb18c8bdd17c0a02cedb0a4b000cc3f275f96c8334870f386eab579120e264"
+  },
+  "apk_sha256": "0ec769118f17bdc88a07770e1d05cc09d76e68a023a5423f3d30f585b036a3c1",
+  "build_tools": "36.1.0",
+  "compile_sdk": 35,
+  "min_sdk": 26,
+  "target_sdk": 35,
+  "debuggable": false
+}

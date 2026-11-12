@@ -1,0 +1,27 @@
+{
+  "collection": "Author-uploaded app-exported ZIP files over temporary local network; receiver closed after collection",
+  "archives": [
+    {
+      "file": "session_1_1794454750631.zip",
+      "bytes": 3525215,
+      "sha256": "3c5366a77d815c34978c1d4fdd3f5cbcb1976567b8056333b40dcc7b156289a8"
+    },
+    {
+      "file": "session_2_1794455138508.zip",
+      "bytes": 3525590,
+      "sha256": "9dbf2fde710a508fa5bed352f9161f09ce7df92c4eadc90265884e26fe79612f"
+    },
+    {
+      "file": "session_3_1794455184057.zip",
+      "bytes": 3524701,
+      "sha256": "ae5ffde39bbbd8088f62e321c6cfa47359aee08f23abf5cc769ff43042778bce"
+    },
+    {
+      "file": "session_4_1794455197686.zip",
+      "bytes": 3524828,
+      "sha256": "2a6f1f44919cae3cc6c99e15d870e38c844528f55d3023aca030cc08f8d73e51"
+    }
+  ],
+  "first_session_cross_check": "All files in earlier USB-transferred session 1 are byte-identical to the ZIP contents",
+  "analysis": "First three chronological complete sessions with distinct process IDs; fourth raw session retained without outcome-based selection"
+}

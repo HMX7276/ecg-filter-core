@@ -13,6 +13,7 @@ import com.ecg.filter.sqi.SQIComputer;
  * <p>默认按整段信号处理；如需分窗（如 10 秒窗口）逐帧处理，
  * 可设置窗口大小后由 {@link #filter(double[], int)} 内部自动分窗。</p>
  */
+@Deprecated
 public class AdaptiveZeroPhaseFilter {
 
     private final ZeroPhaseButterworthFilter filter;
@@ -36,6 +37,7 @@ public class AdaptiveZeroPhaseFilter {
      * @return 滤波后信号（长度与输入相同）
      */
     public double[] filter(double[] signal, int samplingRate) {
+        if (samplingRate != 250) throw new IllegalArgumentException("Only 250 Hz is supported");
         if (windowSeconds <= 0) {
             return filterSingle(signal, samplingRate);
         }
@@ -75,6 +77,8 @@ public class AdaptiveZeroPhaseFilter {
 
     /** 设置窗口大小（秒），0 表示不分窗 */
     public void setWindowSeconds(double windowSeconds) {
+        if (!Double.isFinite(windowSeconds) || windowSeconds < 0 || (windowSeconds > 0 && windowSeconds*250 < 16))
+            throw new IllegalArgumentException("Window must be zero or at least 16 samples at 250 Hz");
         this.windowSeconds = windowSeconds;
     }
 

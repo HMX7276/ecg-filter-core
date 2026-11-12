@@ -1,0 +1,19 @@
+{
+  "python_cross_language_tests": {
+    "passed": 36,
+    "failed": 0,
+    "command": "python -m pytest scripts/test_revision.py -q"
+  },
+  "java_junit_tests": {
+    "passed": 16,
+    "failed": 0,
+    "runtime": "JDK 21.0.9",
+    "compiler_release": 8
+  },
+  "record_count": 56,
+  "analytical_templates": 30,
+  "numerical_comparisons": 448,
+  "denoising_rows": 16128,
+  "streaming_windows": 6664,
+  "status": "numerical verification only; no new Android or clinical validation"
+}

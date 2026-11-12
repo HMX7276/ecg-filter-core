@@ -1,0 +1,15 @@
+# Version 1.1.0, 2026-11-12
+
+The revision adds a pure-Java SOS implementation, median baseline-wander amplitude, centered high-frequency SQI, session calibration, and a bounded overlap-add stream. The direct-form and fixed-bSQI APIs remain as compatibility paths with clarified input contracts and deprecation notices.
+
+The experiment package contains 56 records, 448 realization/configuration comparisons, 6,664 evaluated streaming windows, 16,128 denoising rows and 30 analytical ST templates. The main result tables are under `results/revision`; `results/ablation_uncentered` preserves the exploratory uncentered-index comparison. Figures can be regenerated from the CSV files. The source data manifest records download provenance and hashes; it does not redistribute the waveform files.
+
+Validation completed: 36 Python cross-language checks, nine clinical endpoint/statistics checks and 16 JUnit tests on JDK 21.0.9, compiling with `--release 8`. JUnit report details are supplied under `results/revision/test_reports`. XML machine properties were omitted from the distributable report; test names and outcomes are retained. The original DiagnosticFidelityTest now invokes the actual filter, but only checks length/finiteness. Its name must not be interpreted as clinical proof.
+
+Documented limitations include calibration contamination, shared noise excerpts, exploratory DC centering, deterministic subject partitioning, reference-dependent denoising scores, and nonzero window-boundary/ST error. Desktop timing is not Android timing. See `android_benchmark_protocol.md` for the separate completed three-process physical Xiaomi replay and its limits.
+
+No clinical safety, wearable-patch generalization, minimum heap, universal error-floor or blanket denoising-superiority claim is made. Version 1.1.0 revises upstream commit `bffd1ff0d79a5a0e4736a6f29e380c147298748c` and is distributed at https://github.com/HMX7276/ecg-filter-core/releases/tag/v1.1.0. The historical Zenodo DOI does not identify this revision.
+
+The retrospective extension attempts 178 public records: all 48 MIT-BIH, 40 Fantasia and 90 European ST-T. Six Fantasia ECGs with native missing samples are explicitly excluded. Fixed-detector F1, uncorrected RR-versus-NN HRV, an annotation-assisted matched-NN audit and expert ST peak-deviation measurements are supplied. ST landmark/reference criteria accept 246 of 368 peak labels, retaining all 122 failures in coverage reports. Participant-level uncertainty, sparse-pair statistics and four Holm-adjusted contrasts are reported. No significant adaptive-versus-fixed difference establishes a safety or equivalence claim.
+
+Physical Android evidence contains three independent processes, nine complete saved outputs, 180 measured replays and 21420 full-frame calls. APK/source/input hashes and independent host output checks link the measurements to the released implementation. Raw phone data, the signed research APK and build/transfer/summary scripts are supplied. Whole-app memory includes replay buffers; accelerated computation is separate from acquisition latency.

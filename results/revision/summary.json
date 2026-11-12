@@ -1,0 +1,71 @@
+{
+  "numerical_max_rmse_uv": {
+    "direct": 0.05850161069888568,
+    "sos": 8.337134529006133e-08
+  },
+  "streaming": [
+    {
+      "database": "fantasia",
+      "initial_condition": "bw_start_0dB",
+      "bw_active_recall": 0.20454545454545453,
+      "powerline_active_recall": 0.9204545454545454,
+      "clean_false_alarm_rate": 0.18198529411764705
+    },
+    {
+      "database": "fantasia",
+      "initial_condition": "bw_start_6dB",
+      "bw_active_recall": 0.5397727272727273,
+      "powerline_active_recall": 0.8863636363636364,
+      "clean_false_alarm_rate": 0.11764705882352941
+    },
+    {
+      "database": "fantasia",
+      "initial_condition": "ma_start_0dB",
+      "bw_active_recall": 0.2954545454545454,
+      "powerline_active_recall": 0.8863636363636364,
+      "clean_false_alarm_rate": 0.08823529411764706
+    },
+    {
+      "database": "fantasia",
+      "initial_condition": "raw_start",
+      "bw_active_recall": 0.7386363636363636,
+      "powerline_active_recall": 0.8181818181818181,
+      "clean_false_alarm_rate": 0.18198529411764708
+    },
+    {
+      "database": "mitdb",
+      "initial_condition": "bw_start_0dB",
+      "bw_active_recall": 0.2604166666666667,
+      "powerline_active_recall": 0.9090909090909091,
+      "clean_false_alarm_rate": 0.09803921568627451
+    },
+    {
+      "database": "mitdb",
+      "initial_condition": "bw_start_6dB",
+      "bw_active_recall": 0.5814393939393939,
+      "powerline_active_recall": 0.875,
+      "clean_false_alarm_rate": 0.08854166666666667
+    },
+    {
+      "database": "mitdb",
+      "initial_condition": "ma_start_0dB",
+      "bw_active_recall": 0.3693181818181818,
+      "powerline_active_recall": 0.899621212121212,
+      "clean_false_alarm_rate": 0.04871323529411765
+    },
+    {
+      "database": "mitdb",
+      "initial_condition": "raw_start",
+      "bw_active_recall": 0.8513257575757577,
+      "powerline_active_recall": 0.8541666666666666,
+      "clean_false_alarm_rate": 0.22549019607843138
+    }
+  ],
+  "synthetic_st_mean_mae_uv": {
+    "causal_0.05": 6.833373230267712,
+    "causal_twice_0.05": 15.109009085993224,
+    "overlap_0.05": 6.551525369062909,
+    "zero_phase_0.05": 1.0982420691569212,
+    "zero_phase_0.10": 1.087048455584243
+  }
+}
