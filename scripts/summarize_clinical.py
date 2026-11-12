@@ -68,7 +68,7 @@ def main():
     tests=pd.DataFrame(comparisons);order=np.argsort(tests.wilcoxon_p.to_numpy());adjusted=np.empty(len(tests));running=0
     for rank,index in enumerate(order):running=max(running,min(1,tests.loc[index,'wilcoxon_p']*(len(tests)-rank)));adjusted[index]=running
     tests['holm_p']=adjusted;tests.to_csv(OUT/'paired_statistics.csv',index=False)
-    (OUT/'subject_map.csv').write_text('database,record,subject\n'+''.join(f'{db},{name},{subject(db,name)}\n' for db in ['mitdb','fantasia','edb'] for name in (ROOT/'data/raw'/db/'RECORDS').read_text().split()),encoding='utf-8')
+    (OUT/'subject_map.csv').write_text('database,record,subject\n'+''.join(f'{db},{name},{subject(db,name)}\n' for db in ['mitdb','fantasia','edb'] for name in ((ROOT/'data/raw'/db/'RECORDS') if (ROOT/'data/raw'/db/'RECORDS').exists() else (ROOT/'docs/record_lists'/(db+'.txt'))).read_text().split()),encoding='utf-8')
     q.groupby('method')[['tp','fp','fn']].sum().to_csv(OUT/'qrs_pooled_counts.csv')
     sensitivity=[]
     for jitter,g in st.groupby('jitter_ms'):
