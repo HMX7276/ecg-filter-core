@@ -10,7 +10,7 @@
 - Included downloader/checksum scripts, protocol amendments, participant-level statistical analysis, negative results, figures and test reports.
 - Included the measured signed research APK and a clean-checkout verifier; excluded private signing keys, downloaded full waveforms, scratch buffers and duplicate phone imports.
 - Validation: 36 cross-language Python checks, nine clinical metric/statistics checks and 16 JUnit tests. These establish software behavior, not clinical safety or clinical efficacy.
-- GitHub release: https://github.com/HMX7276/ecg-filter-core/releases/tag/v1.1.0. The v1.0.0 Zenodo DOI is historical and is not used as the identifier for this revision.
+- GitHub release: https://github.com/HMX7276/ecg-filter-core/releases/tag/v1.1.0. Version-specific archive: https://doi.org/10.5281/zenodo.24155161. The original DOI 10.5281/zenodo.22136345 is the all-versions concept DOI.
 
 ## [1.0.0] - 2026-08
 

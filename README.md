@@ -98,8 +98,9 @@ Build, run, transfer and verify instructions are in [android-replay/README.md](a
 Repeated-SNR inference aggregates by participant, combining 201/202. The fixed shared noise excerpts and exploratory DC correction limit independent generalization claims. Negative SNR results are retained. Desktop measurements are not Android measurements; see docs/android_benchmark_protocol.md.
 
 Upstream baseline: bffd1ff0d79a5a0e4736a6f29e380c147298748c.
-Original archive: https://doi.org/10.5281/zenodo.22136345.
-The revised implementation and record-level evidence are distributed as GitHub release v1.1.0. Cite that version for the revised experiments. The original Zenodo DOI identifies the historical archive and is not evidence that v1.1.0 has been deposited there.
+All-versions DOI: https://doi.org/10.5281/zenodo.22136345.
+Version-specific v1.1.0 DOI: https://doi.org/10.5281/zenodo.24155161.
+The revised implementation and record-level evidence are distributed as GitHub release v1.1.0. Cite that version for the revised experiments. The existing GitHub-Zenodo integration archived v1.1.0 as DOI 10.5281/zenodo.24155161. Every archived file was verified against the released commit `83ad4c5565c017c9b30eb01c441478014627bf25`. Use the version-specific DOI for reproducible citation.
 
 The signed measured APK is included at `android-replay/ecg-replay-research.apk`; `python scripts/summarize_android.py` verifies its source and asset hashes and all four raw sessions, selecting the first three independent processes. This works directly from the release archive without an Android SDK or private signing key. Full public source waveforms are downloaded separately; the APK contains three attributed public-data excerpts under the terms in `android-replay/DATA_SOURCES.txt`.
 
