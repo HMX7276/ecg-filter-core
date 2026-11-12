@@ -78,7 +78,11 @@ def main():
     failures=pd.read_csv(OUT/'st_failures.csv')
     cov={'selected_mitdb_records':48,'mitdb_participants':q.subject.nunique(),'selected_fantasia_subjects':40,'evaluated_fantasia_subjects':h.subject.nunique(),'excluded_fantasia_subjects':len(excluded[excluded.database=='fantasia']),'hrv_windows_per_method':int(len(h)/4),'selected_edb_records':90,'edb_participants_in_inventory':inventory.subject.nunique(),'expert_st_peaks':int(inventory.expert_peaks.sum()),'evaluated_st_peaks':int(inventory.evaluated_peaks.sum()),'failed_st_peaks':int(inventory.failed_peaks.sum()),'edb_records_with_evaluable_peaks':s.record.nunique(),'edb_participants_with_evaluable_peaks':s.subject.nunique(),'failure_reasons':{str(k):int(v) for k,v in failures.reason.value_counts().items()},'scope':'Retrospective clinical signal/annotation endpoints; no prospective deployment, autonomous ST episode detection or clinical safety claim'}
     (OUT/'coverage.json').write_text(json.dumps(cov,indent=2),encoding='utf-8')
-    shutil.copy2(ROOT/'data/clinical_manifest.json',OUT/'source_data_manifest.json');shutil.copy2(ROOT/'docs/retrospective_protocol.json',OUT/'protocol.json')
+    if (ROOT/'data/clinical_manifest.json').exists():
+        shutil.copy2(ROOT/'data/clinical_manifest.json',OUT/'source_data_manifest.json')
+    elif not (OUT/'source_data_manifest.json').exists():
+        raise FileNotFoundError('Download manifest absent from both data/ and results/clinical/')
+    shutil.copy2(ROOT/'docs/retrospective_protocol.json',OUT/'protocol.json')
     environment=json.loads((OUT/'environment.json').read_text())
     environment.setdefault('cohort_execution_protocol_sha256',environment['protocol_sha256'])
     environment['protocol_sha256']=hashlib.sha256((OUT/'protocol.json').read_bytes()).hexdigest()
